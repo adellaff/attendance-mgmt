@@ -38,7 +38,9 @@ class Home extends Component {
                         </Grid.Row>
                     </Grid>
                 </Segment>
+                
             </div>
+            
         )
     }
 }

@@ -1,9 +1,24 @@
 import React, { Component } from 'react';
-import { Table, Segment, Button, Input, Grid, Icon, Header, Divider } from "semantic-ui-react";
+import { Table, Segment, Button, Input, Grid, Icon, Header, Divider, Modal } from "semantic-ui-react";
 import Nav from "./Nav";
-
+import AddEmployee from './AddEmployee';
 
 class Employee extends Component {
+    constructor(props){
+        super(props);
+        this.state = {
+            employeeData: []
+        }
+    }
+    componentDidMount(){
+        fetch("http://192.168.43.122:4000/employee")
+        .then(response => response.json())
+        .then(res =>{
+            this.setState({
+                employeeData: res
+            })
+        } );
+    }
     render() {
         return (
             <div>
@@ -15,9 +30,13 @@ class Employee extends Component {
                     </Header>
                     <Divider clearing></Divider>
                 </Segment>
-                <Grid Container columns={2} stackable>
-                    <Grid.Column verticalAlign="left">
-                        <Button primary icon labelPosition="left" size='tiny'><Icon name='add' />Add Employee </Button>
+                <Grid container columns={2} stackable>
+                    <Grid.Column>
+                        <Modal trigger={<Button primary icon labelPosition="left" size='tiny'><Icon name='add' />Add Employee </Button>}>
+                           <Modal.Content>
+                                <AddEmployee />
+                           </Modal.Content>
+                        </Modal>
                         <Button color='teal' icon labelPosition="left" size='tiny'><Icon name='filter' />Filter</Button>
 
                     </Grid.Column>
@@ -25,10 +44,6 @@ class Employee extends Component {
                         <Input size='mini' icon='search' placeholder='Search...' />
                     </Grid.Column>
                 </Grid>
-
-
-
-
                 <Table size="small" color="red" inverted celled fixed singleLine>
                     <Table.Header>
                         <Table.Row>
@@ -39,25 +54,30 @@ class Employee extends Component {
                             <Table.HeaderCell>Salary</Table.HeaderCell>
                             <Table.HeaderCell>Hired Date</Table.HeaderCell>
                             <Table.HeaderCell>Departement</Table.HeaderCell>
-                            <Table.HeaderCell>QR ID</Table.HeaderCell>
-                            <Table.HeaderCell>NFC ID</Table.HeaderCell>
                             <Table.HeaderCell>Status</Table.HeaderCell>
                             <Table.HeaderCell>Action</Table.HeaderCell>
 
                         </Table.Row>
                     </Table.Header>
 
-                    <Table.Body>
+                {this.state.employeeData.map((dat, index)=>{
+                    return (
+                                  
+                    <Table.Body key={index}>
                         <Table.Row>
-                            <Table.Cell>John</Table.Cell>
-                            <Table.Cell>Approved</Table.Cell>
-                            <Table.Cell></Table.Cell>
-                            <Table.Cell>Jamie</Table.Cell>
-                            <Table.Cell>Approved</Table.Cell>
-                            <Table.Cell>Shorter description</Table.Cell>
-                            <Table.Cell>Shorter description</Table.Cell>
+                            <Table.Cell>{dat.photos}</Table.Cell>
+                            <Table.Cell>{dat.firstName} {dat.lastName}</Table.Cell>
+                            <Table.Cell>{dat.phone}</Table.Cell>
+                            <Table.Cell>{dat.bloodGroup}</Table.Cell>
+                            <Table.Cell>{dat.salary}</Table.Cell>
+                            <Table.Cell>{dat.hiredDate}</Table.Cell>
+                            <Table.Cell>{dat.department['departmentName']}</Table.Cell>
+                            <Table.Cell>{dat.active}</Table.Cell>
+                            <Table.Cell><Button color='green' size='mini'>EDIT</Button></Table.Cell>
                         </Table.Row>
-                    </Table.Body>
+                    </Table.Body>      
+                    );
+                })}
                 </Table>
             </div>
         )
