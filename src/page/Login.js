@@ -1,8 +1,16 @@
 import React, {Component} from 'react';
 import "semantic-ui-css/semantic.min.css";
+import axios from 'axios';
 
 
 class Login extends Component {
+    state = {
+        user: {
+            email: '',
+            password: '',
+        }
+    }
+
     render (){
         return (
            <div class='ui placeholder segment'>
@@ -11,14 +19,14 @@ class Login extends Component {
                        <div class="field">
                            <label>Email</label>
                            <div class="ui left icon input">
-                               <input type="email" placeholder="user@example.com"/>
+                               <input type="email" name="email" value={this.email} placeholder="user@example.com"/>
                                <i class="user icon"></i>
                            </div>
                        </div>
                        <div class="field">
                            <label>Password</label>
                            <div class="ui left icon input">
-                               <input type="password" placeholder="password"/>
+                               <input type="password" name="password" value={this.password} placeholder="password"/>
                                <i class="lock icon"></i>
                            </div>
                        </div>

@@ -46,7 +46,7 @@
 // 		e.preventDefault()
 // 		console.log(this.state)
 // 		axios
-// 			.post('http://192.168.43.122:4000/employee', this.state)
+// 			.post('${process.env.REACT_APP_WS_URL}employee', this.state)
 // 			.then(response => {
 // 				console.log(response)
 // 			})
@@ -96,15 +96,15 @@
 //                         onChange={this.changeHandler}                       
 
 //                     />
-//                     <Form.Select
-//                         fluid
-//                         label='Blood Type'
-//                         name="bloodType"
-//                         options={BloodType}
-//                         placeholder='Blood Type'
-//                         value={bloodType}
-//                         onChange={this.changeHandler}
-//                     />
+                    // <Form.Select
+                    //     fluid
+                    //     label='Blood Type'
+                    //     name="bloodType"
+                    //     options={BloodType}
+                    //     placeholder='Blood Type'
+                    //     value={bloodType}
+                    //     onChange={this.changeHandler}
+                    // />
 //                     <Form.Select
 //                         fluid
 //                         label='Status'
@@ -139,23 +139,8 @@ import React, { Component } from 'react';
 import "semantic-ui-css/semantic.min.css";
 import { Form,  Divider, Icon, Header } from "semantic-ui-react";
 import axios from 'axios';
+import {DateInput } from 'semantic-ui-calendar-react';
 
-// const GenderOptions = [
-//     { key: 'm', text: 'Male', value: 'male' },
-//     { key: 'f', text: 'Female', value: 'female' },
-//   ]
-
-// const BloodType = [
-//     {key: 'a', text: 'A', value: 'a'},
-//     {key: 'b', text: 'B', value: 'b'},
-//     {key: 'o', text: 'O', value: 'o'},
-//     {key: 'ab', text: 'AB', value: 'ab'}
-// ]
-
-// const Status = [
-//     { key: 'y', text: 'Active', value: 'active' },
-//     { key: 'n', text: 'Inactive', value: 'inactive' },
-//   ]
 class AddEmployee extends Component {
 
     constructor(props) {
@@ -167,39 +152,34 @@ class AddEmployee extends Component {
                 gender: '',
                 photos: '',
                 phone: '',
+                status: '',
                 familyName: '',
                 familyNumber: '',
                 bloodType: '',
                 hiredDate: '',
-                deptId: '',
-                status: ''
-            }
-            
-		}
+                deptId: ''                
+            },
+        }
+        this.changeHandler = this.changeHandler.bind(this)
+        this.submitHandler = this.submitHandler.bind(this);
     }
-    changeHandler = e => {
+    changeHandler = (e) => {
         this.setState({ [e.target.name]: e.target.value })
-        
 	}
 
     submitHandler = e => {
 		e.preventDefault()
 		console.log(this.state)
 		axios
-			.post('http://192.168.43.122:4000/employee', this.state)
+			.post('http://localhost:4000/employee', this.state)
 			.then(response => {
 				console.log(response)
 			})
 			.catch(error => {
 				console.log(error)
-            })
-
-        
-        
+			})
 	}
     render() {
-        // const {  firstName, lastName,gender,photos,phone,familyName,familyNumber,bloodType,hiredDate,
-        // deptId , status } = this.state
         return (
             <div>
                 <Divider horizontal>
@@ -225,31 +205,35 @@ class AddEmployee extends Component {
                         <label>Phone </label>
                         <input placeholder='Phone Number' name="phone" value={this.phone}  onChange={this.changeHandler}/>
                     </Form.Field>
-                    <Form.Field>
-                        <label>Gender</label>
-                        <input placeholder='Gender' name="gender" value={this.gender}  onChange={this.changeHandler}/>
+                    <Form.Field label='Gender' value={this.gender} control='select' name="gender" onChange={this.changeHandler}>
+                        <option value='Male'>Male</option>
+                        <option value='Female'>Female</option>
                     </Form.Field>
-                    <Form.Field>
-                        <label>BloodType</label>
-                        
-                        <input placeholder='Blood Type' name="bloodType" value={this.bloodType}  onChange={this.changeHandler}/>
+                    <Form.Field label='Blood Type' value={this.bloodType} control='select' name="bloodType" onChange={this.changeHandler}>
+                        <option value="A">A</option>
+                        <option value="B">B</option>
+                        <option value="AB">AB</option>
+                        <option value="O">O</option>
+                    </Form.Field > 
+                    <DateInput 
+                        label='Hired Date'
+                        name="hiredDate"
+                        placeholder="Hired Date"
+                        value={this.hiredDate}
+                        iconPosition="left"
+                        onChange={this.changeHandler}
+                    />
+                    <Form.Field label='Status' value={this.status} control='select' name="status" onChange={this.changeHandler}>
+                        <option value='Active'>Active</option>
+                        <option value='Inactive'>Inactive</option>
                     </Form.Field>
-                  
-                    <Form.Field>
-                        <label>Hired Date </label>
-                        <input placeholder='Tanggal join' name="hiredDate" value={this.hiredDate}  onChange={this.changeHandler}/>
-                    </Form.Field>
-                    <Form.Field>
-                       <label>Status</label>
-                       <input placeholder='Active / Inactive' name='status' value={this.status}  onChange={this.changeHandler}/>
-                     </Form.Field>
                      <Form.Field>
                        <label>Family Name</label>
-                       <input placeholder='Active / Inactive' name='familyName' value={this.familyName}  onChange={this.changeHandler}/>
+                       <input placeholder='Name' name='familyName' value={this.familyName}  onChange={this.changeHandler}/>
                      </Form.Field>
                      <Form.Field>
                        <label>Family Number</label>
-                       <input placeholder='Active / Inactive' name='familyNumber' value={this.familyNumber}  onChange={this.changeHandler}/>
+                       <input placeholder='Number' name='familyNumber' value={this.familyNumber}  onChange={this.changeHandler}/>
                      </Form.Field>
                      <Form.Field>
                         <label>Dept Id</label>

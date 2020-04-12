@@ -10,40 +10,68 @@ import {
     Header,
     Table,
 } from 'semantic-ui-react';
+import axios from 'axios';
+import ReactHTMLTableToExcel from 'react-html-table-to-excel';
 
 class Attendance extends Component {
+    constructor(props){
+        super(props)
+            this.state = {
+                reportData: []
+            }
+        
+    }
+
+    componentDidMount(){
+        axios
+        .get('http://192.168.43.122:4000/report')
+        .then(res => {
+            this.setState({
+                reportData: res.data
+            })
+        })
+    }
     render() {
         return (
             <div>
                 <Nav />
-                <Segment basic>
-                    <Header as='h2' icon textAlign='center'>
-                        <Icon color="red" name='addres book' circular />
-                        <Header.Content>Attendance Management</Header.Content>
-                    </Header>
-                    <Divider clearing></Divider>
-                </Segment>
-                <Grid Container columns={2} stackable>
-                    <Grid.Column verticalAlign="left">
-                        <Button color='teal' icon labelPosition="left" size='tiny'><Icon name='filter' />Filter</Button>
-                    </Grid.Column>
-                    <Grid.Column verticalAlign="right">
-                        <Input size='mini' icon='search' placeholder='Search...' />
-                    </Grid.Column>
-                </Grid>
-                <Table size="small" color="red" inverted celled fixed singleLine>
-                    <Table.Header>
-                        <Table.Row>
-                            <Table.HeaderCell>Name</Table.HeaderCell>
-                            <Table.HeaderCell>Time in</Table.HeaderCell>
-                            <Table.HeaderCell>Time Out</Table.HeaderCell>
-                            <Table.HeaderCell>Date</Table.HeaderCell>
-                            <Table.HeaderCell>QR Id</Table.HeaderCell>
-                            <Table.HeaderCell>NFC Id</Table.HeaderCell>
+                <Grid columns={2} divided>
+                    <Grid.Row>
+                        <Grid.Column width="2">
+                            <Segment basic>
+                                <Header as='h3' icon textAlign='center'>
+                                    <Icon color="red" name='addres book' circular />
+                                    <Header.Content>Attendance Management</Header.Content>
+                                </Header>
+                            </Segment>
+                        </Grid.Column>
+                        <Grid.Column width="14">
+                            <Segment>
+                            <Table size="small" celled fixed singleLine>
+                                    <Table.Header>
+                                        <Table.Row>
+                                            <Table.HeaderCell>Name</Table.HeaderCell>
+                                            <Table.HeaderCell>Arrival</Table.HeaderCell>
+                                            <Table.HeaderCell>Leaving</Table.HeaderCell>
+                                            <Table.HeaderCell>Date</Table.HeaderCell>
+                                        </Table.Row>
+                                    </Table.Header>
+                                    {this.state.reportData.map((dat, index) => {
+                                        return (
+                                            <Table.Body key={index}>
+                                                <Table.Cell>{dat.employeeId}</Table.Cell>
+                                                <Table.Cell>{dat.inTime}</Table.Cell>
+                                                <Table.Cell>{dat.outTime}</Table.Cell>
+                                                <Table.Cell>{dat.dateReport}</Table.Cell>
 
-                        </Table.Row>
-                    </Table.Header>
-                </Table>
+                                            </Table.Body>
+                                        );
+                                    })}
+                                </Table>
+                            </Segment>
+                        </Grid.Column>
+                    </Grid.Row>
+                </Grid> 
             </div>
         )
     }

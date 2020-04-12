@@ -12,13 +12,6 @@ class Nav extends Component {
                     <Menu.Item>
                         <img src={logo} onClick={() => window.location.href = "/"} alt="Sinarmas Logo" />
                     </Menu.Item>
-
-                    <Menu.Item
-                        as = {Link} to="/"
-                    >
-                        Home
-                    </Menu.Item>
-
                     <Menu.Item
                         as = {Link} to="/employee"
                     >
@@ -28,6 +21,11 @@ class Nav extends Component {
                         as = {Link} to="/attendance"
                     >
                         Attendance Management
+                    </Menu.Item>
+                    <Menu.Item
+                        as = {Link} to="/login"
+                    >
+                        LOGIN
                     </Menu.Item>
                 </Menu>
             </div>

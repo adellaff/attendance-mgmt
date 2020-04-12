@@ -3,14 +3,19 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@react-pdf/renderer": "^1.6.8",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.5.0",
     "@testing-library/user-event": "^7.2.1",
     "axios": "^0.19.2",
     "react": "^16.13.0",
-    "react-dom": "^16.13.0",
+    "react-dom": "^16.13.1",
+    "react-html-table-to-excel": "^2.0.0",
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.4.0",
+    "react-to-pdf": "0.0.11",
+    "react.qrcode.generator": "0.0.3",
+    "semantic-ui-calendar-react": "^0.15.3",
     "semantic-ui-css": "^2.4.1",
     "semantic-ui-react": "^0.88.2"
   },
@@ -34,5 +39,6 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  }
+  },
+  "proxy": "http://192.168.43.122:4000/"
 }
