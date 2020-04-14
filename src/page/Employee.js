@@ -4,7 +4,6 @@ import Nav from "./Nav";
 import AddEmployee from './AddEmployee';
 import axios from 'axios';
 import QrCode from 'react.qrcode.generator';
-// import ReactHTMLTableToExcel from 'react-html-table-to-excel';
 
 class Employee extends Component {
     constructor(props) {
@@ -73,6 +72,7 @@ class Employee extends Component {
                                     <Table.Header>
                                         <Table.Row>
                                             <Table.HeaderCell>Photo</Table.HeaderCell>
+                                            <Table.HeaderCell>QrCode</Table.HeaderCell>
                                             <Table.HeaderCell>Name</Table.HeaderCell>
                                             <Table.HeaderCell>Phone</Table.HeaderCell>
                                             <Table.HeaderCell>Gender</Table.HeaderCell>
@@ -92,6 +92,19 @@ class Employee extends Component {
                                             <Table.Body key={index}>
                                                 <Table.Row>
                                                     <Table.Cell>{dat.photos}</Table.Cell>
+                                                    <Table.Cell>
+                                                        <Modal trigger={<Button color="blue" size="tiny"><Icon name='qrcode' /></Button>}  closeIcon>
+                                                        <Modal.Content>
+                                                        <Segment>
+                                                            <p align="center">
+                                                            <QrCode value={dat.employeeId}/>
+                                                            </p>
+                                                        </Segment>
+                                                        
+                                                       
+                                                        </Modal.Content>
+                                                        </Modal> 
+                                                    </Table.Cell>
                                                     <Table.Cell>{dat.firstName} {dat.lastName}</Table.Cell>
                                                     <Table.Cell>{dat.phone}</Table.Cell>
                                                     <Table.Cell>{dat.gender}</Table.Cell>
@@ -130,7 +143,7 @@ class Employee extends Component {
                                                                             <Header as='h5'>Family Related</Header>
                                                                             {this.state.employee.familyName} {this.state.employee.familyNumber}
                                                                             <Header as='h5'>Departement Name</Header>
-                                                                            {this.state.employee.deptId}
+                                                                            {this.state.employee.department}
                                                                         </Grid.Column>
                                                                     </Grid>
                                                                 </div>

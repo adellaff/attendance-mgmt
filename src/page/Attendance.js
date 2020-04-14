@@ -11,7 +11,6 @@ import {
     Table,
 } from 'semantic-ui-react';
 import axios from 'axios';
-import ReactHTMLTableToExcel from 'react-html-table-to-excel';
 
 class Attendance extends Component {
     constructor(props){
@@ -24,7 +23,7 @@ class Attendance extends Component {
 
     componentDidMount(){
         axios
-        .get('http://192.168.43.122:4000/report')
+        .get(`${process.env.REACT_APP_WS_URL}/report`)
         .then(res => {
             this.setState({
                 reportData: res.data
@@ -59,11 +58,10 @@ class Attendance extends Component {
                                     {this.state.reportData.map((dat, index) => {
                                         return (
                                             <Table.Body key={index}>
-                                                <Table.Cell>{dat.employeeId}</Table.Cell>
+                                                <Table.Cell>{dat.employee['firstName']}</Table.Cell>
                                                 <Table.Cell>{dat.inTime}</Table.Cell>
                                                 <Table.Cell>{dat.outTime}</Table.Cell>
                                                 <Table.Cell>{dat.dateReport}</Table.Cell>
-
                                             </Table.Body>
                                         );
                                     })}
